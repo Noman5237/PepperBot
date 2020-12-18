@@ -7,12 +7,15 @@ const pepperTestChannel = "789220591156199454";
 
 client.login(process.env.CLIENT_TOKEN);
 
+const imprisoned = [];
+
 client.on("ready", () => {
   console.log("Hello");
 });
 
 client.on("message", async (message) => {
-  if (message.content.toString().toLowerCase() === "kutta") {
+  messageContent = message.content.toString();
+  if (messageContent.toLowerCase() === "kutta") {
     const voiceChannel = message.member.voice.channel;
     if (voiceChannel) {
       voiceChannel
@@ -42,8 +45,19 @@ client.on("message", async (message) => {
     }
   }
 
-  client.on("presenceUpdate", (oldPresence, newPresence) => {
-    console.log(oldPresence);
-    console.log(newPresence);
-  });
+  if (messageContent.startsWith(".imprison")) {
+    for (const [id, user] of message.mentions.members) {
+      console.log(id);
+      imprisoned.push(id);
+      // user.voice.setChannel("789485989592170546");
+    }
+    console.log(imprisoned);
+  }
+});
+
+client.on("voiceStateUpdate", (oldState, newState) => {
+  const user = newState.member;
+  if (user.id in imprisoned) {
+    newState.setChannel("789485989592170546");
+  }
 });
