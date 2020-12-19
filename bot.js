@@ -15,8 +15,13 @@ client.on("ready", () => {
 });
 
 client.on("message", async (message) => {
-  motivationList = ["https://youtu.be/wnHW6o8WMas"];
-  messageContent = message.content.toString();
+  const motivationList = ["https://youtu.be/wnHW6o8WMas"
+  ,"https://youtu.be/CYfU9WBy_HA"
+  ,"https://youtu.be/S8SPfE_-fcU"
+  ,"https://youtu.be/witpeoQgoWs"
+  ,"https://youtu.be/XEcV7Y5gjQA"
+  ,"https://youtu.be/DEYfnp74neA" ];
+  const messageContent = message.content.toString();
   if (messageContent.toLowerCase() === "motivate") {
     const voiceChannel = message.member.voice.channel;
     if (voiceChannel) {
