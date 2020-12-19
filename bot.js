@@ -1,5 +1,6 @@
 const Discord = require("discord.js");
 require("dotenv").config();
+const ytdl = require("ytdl-core");
 
 const client = new Discord.Client();
 
@@ -14,20 +15,26 @@ client.on("ready", () => {
 });
 
 client.on("message", async (message) => {
+  motivationList = ["https://youtu.be/wnHW6o8WMas"];
   messageContent = message.content.toString();
-  if (messageContent.toLowerCase() === "kutta") {
+  if (messageContent.toLowerCase() === "motivate") {
     const voiceChannel = message.member.voice.channel;
     if (voiceChannel) {
       voiceChannel
         .join()
         .then((connection) => {
-          const dispatcher = connection.play("moan.mp3");
+          const dispatcher = connection.play(
+            ytdl(
+              motivationList[Math.floor(Math.random() * motivationList.length)],
+              { filter: "audioonly" }
+            )
+          );
           dispatcher.on("start", () => {
-            console.log("audio.mp3 is now playing!");
+            console.log("motivate.mp3 is now playing!");
           });
 
           dispatcher.on("finish", () => {
-            console.log("audio.mp3 has finished playing!");
+            console.log("motivate.mp3 has finished playing!");
             dispatcher.destroy();
             voiceChannel.leave();
           });
@@ -43,20 +50,5 @@ client.on("message", async (message) => {
         "Please join a voice channel to enjoy what's coming next"
       );
     }
-  }
-
-  if (messageContent.startsWith(".imprison")) {
-    for (const [id, user] of message.mentions.members) {
-      console.log(id);
-      imprisoned.push(id);
-    }
-    console.log(imprisoned);
-  }
-});
-
-client.on("voiceStateUpdate", (oldState, newState) => {
-  const user = newState.member;
-  if (user.id in imprisoned) {
-    newState.setChannel("789485989592170546");
   }
 });
