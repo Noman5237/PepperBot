@@ -49,7 +49,6 @@ client.on("message", async (message) => {
     for (const [id, user] of message.mentions.members) {
       console.log(id);
       imprisoned.push(id);
-      // user.voice.setChannel("789485989592170546");
     }
     console.log(imprisoned);
   }
